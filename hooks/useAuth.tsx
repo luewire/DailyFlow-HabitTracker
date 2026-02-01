@@ -6,6 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
   User as FirebaseUser
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -21,6 +23,7 @@ interface AuthContextType {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -82,6 +85,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error: any) {
+      console.error('Google sign in error:', error);
+      if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Login dibatalkan');
+      } else if (error.code === 'auth/popup-blocked') {
+        throw new Error('Popup diblokir oleh browser. Harap izinkan popup.');
+      } else {
+        throw new Error('Login dengan Google gagal. Silakan coba lagi.');
+      }
+    }
+  };
+
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
@@ -92,7 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signUp, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   );
