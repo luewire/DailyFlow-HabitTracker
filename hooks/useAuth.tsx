@@ -1,60 +1,94 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  User as FirebaseUser
+} from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 interface User {
   uid: string;
+  email: string;
   username: string;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (username: string, password: string) => Promise<void>;
-  signUp: (username: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Hardcoded credentials
-const VALID_USERNAME = 'zen';
-const VALID_PASSWORD = 'zen 123';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage for existing session
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    // Listen to Firebase auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
+      if (firebaseUser) {
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          username: firebaseUser.email?.split('@')[0] || 'User'
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const signIn = async (username: string, password: string) => {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-      const user = { uid: 'zen-user-id', username: VALID_USERNAME };
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      throw new Error('Username atau password salah');
+  const signIn = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      console.error('Sign in error:', error);
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        throw new Error('Username atau password salah');
+      } else if (error.code === 'auth/invalid-email') {
+        throw new Error('Format email tidak valid');
+      } else if (error.code === 'auth/too-many-requests') {
+        throw new Error('Terlalu banyak percobaan login. Coba lagi nanti.');
+      } else {
+        throw new Error('Login gagal. Silakan coba lagi.');
+      }
     }
   };
 
-  const signUp = async (username: string, password: string) => {
-    // For this simple version, signup is not needed
-    throw new Error('Signup not available. Use username: zen, password: zen 123');
+  const signUp = async (email: string, password: string) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      console.error('Sign up error:', error);
+      if (error.code === 'auth/email-already-in-use') {
+        throw new Error('Email sudah terdaftar');
+      } else if (error.code === 'auth/weak-password') {
+        throw new Error('Password terlalu lemah');
+      } else if (error.code === 'auth/invalid-email') {
+        throw new Error('Format email tidak valid');
+      } else {
+        throw new Error('Registrasi gagal. Silakan coba lagi.');
+      }
+    }
   };
 
   const signOut = async () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    try {
+      await firebaseSignOut(auth);
+    } catch (error) {
+      console.error('Sign out error:', error);
+      throw new Error('Logout gagal. Silakan coba lagi.');
+    }
   };
 
   return (

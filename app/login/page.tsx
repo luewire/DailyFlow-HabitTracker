@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await signIn(username, password);
+      await signIn(email, password);
       router.push('/dashboard/tasks');
     } catch (err: any) {
       setError(err.message || 'Login gagal');
@@ -41,10 +41,10 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="zen"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="btmoezin25@gmail.com"
             required
           />
 
@@ -53,7 +53,7 @@ export default function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="zen 123"
+            placeholder="******"
             required
           />
 
