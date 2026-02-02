@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   User as FirebaseUser
 } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth } from '@/app/config/firebase';
 
 interface User {
   uid: string;

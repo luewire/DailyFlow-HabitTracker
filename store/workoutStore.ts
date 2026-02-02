@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { db } from '@/lib/firebase';
+import { db } from '@/app/config/firebase';
 import { 
   collection, 
   doc, 
