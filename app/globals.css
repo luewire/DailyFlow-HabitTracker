@@ -1,26 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --bg-primary: #0D1B0E;
+  --bg-secondary: #132415;
+  --bg-card: #1A2E1C;
+  --bg-card-hover: #213A23;
+  --bg-elevated: #243D26;
+  --border-subtle: #2A4A2D;
+  --border-active: #00E676;
+  --text-primary: #FFFFFF;
+  --text-secondary: #94B898;
+  --text-muted: #5A7D5E;
+  --accent-green: #00E676;
+  --accent-green-dim: #00C853;
+  --accent-orange: #E8825E;
+  --accent-blue: #4A90D9;
+  --accent-purple: #9C6ADE;
+  --accent-red: #E85A5A;
+  --accent-yellow: #F5C842;
+  --shadow-glow: 0 0 20px rgba(0, 230, 118, 0.15);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-green-dim);
+}
+
+/* Custom checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-subtle);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+}
+
+/* Smooth transitions */
+.transition-theme {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Glow animation */
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Circular progress */
+@keyframes progress-fill {
+  from {
+    stroke-dashoffset: 283;
+  }
+}
+
+.progress-ring {
+  animation: progress-fill 1s ease-out forwards;
+}
+
+/* FAB animation */
+@keyframes fab-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Date/time input dark styling */
+input[type="date"],
+input[type="time"] {
+  color-scheme: dark;
+}
+
+/* ── Smooth Toggle Animations ── */
+
+/* Slide down + fade in */
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 2000px;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Expand from zero height */
+@keyframes expand {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
+  }
+}
+
+.animate-expand {
+  animation: expand 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+/* Scale up from center */
+@keyframes scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scale-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger for list items */
+.animate-stagger>* {
+  animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-stagger>*:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.animate-stagger>*:nth-child(2) {
+  animation-delay: 40ms;
+}
+
+.animate-stagger>*:nth-child(3) {
+  animation-delay: 80ms;
+}
+
+.animate-stagger>*:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+.animate-stagger>*:nth-child(5) {
+  animation-delay: 160ms;
+}
+
+.animate-stagger>*:nth-child(6) {
+  animation-delay: 200ms;
+}
+
+.animate-stagger>*:nth-child(7) {
+  animation-delay: 240ms;
+}
+
+.animate-stagger>*:nth-child(8) {
+  animation-delay: 280ms;
+}
+
+.animate-stagger>*:nth-child(9) {
+  animation-delay: 320ms;
+}
+
+.animate-stagger>*:nth-child(10) {
+  animation-delay: 360ms;
 }

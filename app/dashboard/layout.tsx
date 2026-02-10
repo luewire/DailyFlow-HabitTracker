@@ -22,17 +22,17 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b border-gray-200 px-4 py-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="h-8 w-32 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
-          </div>
+      <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+        <div className="px-5 pt-12 pb-4">
+          <div className="h-4 w-24 rounded animate-pulse mb-2" style={{ background: 'var(--bg-card)' }}></div>
+          <div className="h-7 w-36 rounded animate-pulse" style={{ background: 'var(--bg-card)' }}></div>
         </div>
-        <main className="max-w-7xl mx-auto px-4 py-6">
+        <main className="px-5 py-4">
           <div className="space-y-4">
-            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-64 bg-gray-200 rounded-xl animate-pulse"></div>
+            <div className="h-12 w-full rounded-2xl animate-pulse" style={{ background: 'var(--bg-card)' }}></div>
+            <div className="h-32 w-full rounded-2xl animate-pulse" style={{ background: 'var(--bg-card)' }}></div>
+            <div className="h-20 w-full rounded-2xl animate-pulse" style={{ background: 'var(--bg-card)' }}></div>
+            <div className="h-20 w-full rounded-2xl animate-pulse" style={{ background: 'var(--bg-card)' }}></div>
           </div>
         </main>
       </div>
@@ -44,9 +44,9 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6 pb-24 md:pb-6">
+      <main className="px-5 pb-28 md:px-8 md:max-w-4xl md:mx-auto">
         {children}
       </main>
       <BottomNav />

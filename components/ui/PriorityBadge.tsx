@@ -5,15 +5,22 @@ interface PriorityBadgeProps {
 }
 
 export function PriorityBadge({ priority }: PriorityBadgeProps) {
-  const styles = {
-    high: 'bg-red-100 text-red-800 border-red-200',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    low: 'bg-green-100 text-green-800 border-green-200',
+  const styles: Record<Priority, { bg: string; text: string; border: string }> = {
+    high: { bg: 'rgba(232, 90, 90, 0.15)', text: '#E85A5A', border: 'rgba(232, 90, 90, 0.3)' },
+    medium: { bg: 'rgba(245, 200, 66, 0.15)', text: '#F5C842', border: 'rgba(245, 200, 66, 0.3)' },
+    low: { bg: 'rgba(0, 230, 118, 0.15)', text: '#00E676', border: 'rgba(0, 230, 118, 0.3)' },
   };
+
+  const s = styles[priority];
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${styles[priority]}`}
+      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border"
+      style={{
+        background: s.bg,
+        color: s.text,
+        borderColor: s.border,
+      }}
     >
       {priority}
     </span>

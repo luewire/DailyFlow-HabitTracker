@@ -28,12 +28,21 @@ export function AddTaskForm({ onAdd, onCancel }: AddTaskFormProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg p-4 shadow-lg border border-gray-200">
+    <div
+      className="rounded-2xl p-5 border"
+      style={{
+        background: 'var(--bg-elevated)',
+        borderColor: 'var(--border-subtle)',
+      }}
+    >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Add New Task</h3>
+        <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+          Add New Task
+        </h3>
         <button
           onClick={onCancel}
-          className="text-gray-400 hover:text-gray-600"
+          className="p-1 rounded-lg transition-colors"
+          style={{ color: 'var(--text-muted)' }}
         >
           <X size={20} />
         </button>
@@ -50,7 +59,10 @@ export function AddTaskForm({ onAdd, onCancel }: AddTaskFormProps) {
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             Priority
           </label>
           <div className="flex gap-2">
@@ -59,15 +71,12 @@ export function AddTaskForm({ onAdd, onCancel }: AddTaskFormProps) {
                 key={p}
                 type="button"
                 onClick={() => setPriority(p)}
-                className={`flex-1 py-2 px-4 rounded-lg border-2 font-medium text-sm transition-colors ${
-                  priority === p
-                    ? p === 'high'
-                      ? 'bg-red-100 border-red-500 text-red-800'
-                      : p === 'medium'
-                      ? 'bg-yellow-100 border-yellow-500 text-yellow-800'
-                      : 'bg-green-100 border-green-500 text-green-800'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
+                className="flex-1 py-2 px-4 rounded-xl font-medium text-sm transition-all border"
+                style={{
+                  background: priority === p ? 'rgba(0, 230, 118, 0.15)' : 'var(--bg-card)',
+                  borderColor: priority === p ? 'var(--accent-green)' : 'var(--border-subtle)',
+                  color: priority === p ? 'var(--accent-green)' : 'var(--text-secondary)',
+                }}
               >
                 {p.charAt(0).toUpperCase() + p.slice(1)}
               </button>
@@ -82,7 +91,7 @@ export function AddTaskForm({ onAdd, onCancel }: AddTaskFormProps) {
           onChange={(e) => setDueDate(e.target.value)}
         />
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 pt-2">
           <Button type="submit" className="flex-1">
             Add Task
           </Button>
