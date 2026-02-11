@@ -24,9 +24,9 @@ export function TimerControls({
         <Button
           onClick={onStart}
           size="lg"
-          className="flex items-center gap-2 px-8"
+          className="flex items-center gap-2"
         >
-          <Play size={24} />
+          <Play className="w-5 h-5 sm:w-6 sm:h-6" />
           Start
         </Button>
       ) : (
@@ -34,13 +34,13 @@ export function TimerControls({
           onClick={onPause}
           size="lg"
           variant="secondary"
-          className="flex items-center gap-2 px-8"
+          className="flex items-center gap-2"
         >
-          <Pause size={24} />
+          <Pause className="w-5 h-5 sm:w-6 sm:h-6" />
           Pause
         </Button>
       )}
-      
+
       <Button
         onClick={onReset}
         size="lg"

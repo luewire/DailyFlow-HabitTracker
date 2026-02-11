@@ -23,7 +23,7 @@ export function BottomNav() {
         borderColor: 'var(--border-subtle)',
       }}
     >
-      <div className="flex items-center justify-around px-2 py-2 pb-5 max-w-lg mx-auto">
+      <div className="flex items-center justify-around px-2 py-2 pb-8 max-w-lg mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.path;

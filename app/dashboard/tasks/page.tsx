@@ -540,14 +540,14 @@ export default function TasksPage() {
       {!showAddForm && (
         <button
           onClick={() => setShowAddForm(true)}
-          className="fixed bottom-24 right-6 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 active:scale-95 z-40"
+          className="fixed bottom-28 right-6 w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 active:scale-95 z-40"
           style={{
             background: 'var(--accent-green)',
             color: 'var(--bg-primary)',
             boxShadow: '0 8px 24px rgba(0, 230, 118, 0.4)',
           }}
         >
-          <Plus size={24} strokeWidth={3} />
+          <Plus className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={3} />
         </button>
       )}
     </div>
