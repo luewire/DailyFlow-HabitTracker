@@ -72,7 +72,11 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         </div>
 
         <button
-          onClick={() => onDelete(task.id)}
+          onClick={() => {
+            if (window.confirm('Are you sure you want to delete this task?')) {
+              onDelete(task.id);
+            }
+          }}
           className="flex-shrink-0 p-1.5 rounded-lg transition-colors"
           style={{ color: 'var(--text-muted)' }}
         >
